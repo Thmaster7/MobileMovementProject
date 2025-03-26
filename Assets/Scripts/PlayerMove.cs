@@ -44,7 +44,12 @@ public class PlayerMove : MonoBehaviour
                 transform.Rotate(0, rotationY, 0);
             }
         }
-        
+        AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
+        if (stateInfo.IsName("Attack3") && stateInfo.normalizedTime >= 0.9f)
+        {
+            ResetToIdle();
+        }
+
 
 
     }
@@ -81,9 +86,19 @@ public class PlayerMove : MonoBehaviour
     private IEnumerator ResetAttack()
     {
         yield return new WaitForSeconds(comboTimer);
+
+        // Si el combo está en Attack3, dejamos que vuelva solo
+        if (comboCount < 3)
+        {
+            ResetToIdle();
+        }
+    }
+
+    private void ResetToIdle()
+    {
         comboCount = 0;
         anim.SetInteger("ComboStep", 0);
-
+        canAttack = true;
     }
 
 }

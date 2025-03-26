@@ -22,7 +22,7 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!player.anim.GetBool("Attack"))
+        if(!player.canAttack)
         {
             Vector3 desiredPosition = player.transform.position + player.transform.TransformDirection(offset);
             transform.position = Vector3.Lerp(transform.position, desiredPosition, positionSmoothSpeed * Time.deltaTime);

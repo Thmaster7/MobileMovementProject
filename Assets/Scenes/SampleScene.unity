@@ -440,19 +440,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 287357476}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1052266044}
-        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
-        m_MethodName: Play
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Attack
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &287357476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -646,10 +634,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3db7c3197dc57c47a9941fe6be4bc4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1052266042}
+  player: {fileID: 0}
   rotationSmoothSpeed: 5
   positionSmoothSpeed: 5
-  offset: {x: 0, y: 2, z: -5}
+  offset: {x: 0, y: 1, z: -5}
   smoothSpeed: 0.125
 --- !u!1001 &344467668
 PrefabInstance:
@@ -895,6 +883,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd9fde08281fc024eb08d6c8655706c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canAttack: 1
   joystick: {fileID: 1811148612}
   SpeedMove: 5
   rotationSpeed: 1

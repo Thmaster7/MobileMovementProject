@@ -22,13 +22,17 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!player.anim.GetBool("Attack"))
+        {
+            Vector3 desiredPosition = player.transform.position + player.transform.TransformDirection(offset);
+            transform.position = Vector3.Lerp(transform.position, desiredPosition, positionSmoothSpeed * Time.deltaTime);
+            Quaternion carRotation = Quaternion.LookRotation(player.transform.position - transform.position);
+            transform.rotation = Quaternion.Slerp(transform.rotation, carRotation, rotationSmoothSpeed * Time.deltaTime);
 
-        Vector3 desiredPosition = player.transform.position + player.transform.TransformDirection(offset);
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, positionSmoothSpeed * Time.deltaTime);
-        Quaternion carRotation = Quaternion.LookRotation(player.transform.position - transform.position);
-        transform.rotation = Quaternion.Slerp(transform.rotation, carRotation, rotationSmoothSpeed * Time.deltaTime);
+            Vector3 currentOffset = Input.GetKey(KeyCode.S) ? reverseOffset : offset;
+        }
 
-        Vector3 currentOffset = Input.GetKey(KeyCode.S) ? reverseOffset : offset;
+        
 
     }
 }

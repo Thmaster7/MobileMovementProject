@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using System;
 
 public class CameraController : MonoBehaviour
 {
@@ -13,6 +15,7 @@ public class CameraController : MonoBehaviour
     private Vector3 originalOffset;
     private Vector3 reverseOffset = new Vector3(0, 5, -7);
 
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -23,6 +26,7 @@ public class CameraController : MonoBehaviour
     {
         if (player.anim.GetInteger("ComboStep") == 0)
         {
+            
             Vector3 desiredPosition = player.transform.position + player.transform.TransformDirection(offset);
             transform.position = Vector3.Lerp(transform.position, desiredPosition, positionSmoothSpeed * Time.deltaTime);
             Quaternion carRotation = Quaternion.LookRotation(player.transform.position - transform.position);
@@ -30,4 +34,6 @@ public class CameraController : MonoBehaviour
             Vector3 currentOffset = Input.GetKey(KeyCode.S) ? reverseOffset : offset;
         }
     }
+
+    
 }

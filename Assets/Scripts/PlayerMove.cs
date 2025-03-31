@@ -10,13 +10,14 @@ public class PlayerMove : MonoBehaviour
     private int comboCount;
     public bool canAttack = true;
     private float comboTimer = 0.5f;
-
+    
     public FixedJoystick joystick;
     public float SpeedMove = 5f;
     public float rotationSpeed = 1f;
     private CharacterController controller;
     public Animator anim;
     public Button button;
+    public Button jumpButton;
 
     private Coroutine comboResetCoroutine;
 
@@ -26,8 +27,9 @@ public class PlayerMove : MonoBehaviour
         controller = GetComponent<CharacterController>();
         
         button.onClick.AddListener(Attack);
-        
+        jumpButton.onClick.AddListener(Dance);
 
+        
     }
     private void Update()
     {
@@ -35,22 +37,21 @@ public class PlayerMove : MonoBehaviour
         controller.Move(Move * SpeedMove*Time.deltaTime);
         anim.SetFloat("VelX", joystick.Horizontal);
         anim.SetFloat("VelY", joystick.Vertical);
-        if (Input.touchCount > 0)
-        {
+        
             Touch touch = Input.GetTouch(0);
             if (touch.phase == TouchPhase.Moved)
             {
                 float rotationY = touch.deltaPosition.x * rotationSpeed * Time.deltaTime;
                 transform.Rotate(0, rotationY, 0);
             }
-        }
+        
         AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
         if (stateInfo.IsName("Attack3") && stateInfo.normalizedTime >= 0.9f)
         {
             ResetToIdle();
         }
 
-
+        
 
     }
     
@@ -99,6 +100,13 @@ public class PlayerMove : MonoBehaviour
         comboCount = 0;
         anim.SetInteger("ComboStep", 0);
         canAttack = true;
+    }
+    private void Dance()
+    {
+        anim.SetTrigger("Dance");
+        
+        
+        
     }
 
 }

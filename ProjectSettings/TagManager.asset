@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Floor
   - Ground
+  - Hittable
   layers:
   - Default
   - TransparentFX

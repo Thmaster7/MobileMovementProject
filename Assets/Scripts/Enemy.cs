@@ -33,10 +33,10 @@ public class Enemy : MonoBehaviour
     private void TakeHit()
     {
         anim.SetTrigger("Hit"); // Activa la animación de recibir golpe
-        //StartCoroutine(Stun());
+        StartCoroutine(Stun());
     }
 
-    /*private IEnumerator Stun()
+    private IEnumerator Stun()
     {
         // Desactiva el movimiento del enemigo (si tienes un AI)
         if (TryGetComponent(out EnemyMovement movement))
@@ -55,6 +55,6 @@ public class Enemy : MonoBehaviour
     internal class EnemyMovement
     {
         public bool enabled { get; internal set; }
-    }*/
+    }
 
 }

@@ -21,6 +21,7 @@ public class PlayerMove : MonoBehaviour
 
     private Coroutine comboResetCoroutine;
 
+    
 
     private void Start()
     {
@@ -33,6 +34,7 @@ public class PlayerMove : MonoBehaviour
     }
     private void Update()
     {
+        
         Vector3 Move = transform.right * joystick.Horizontal + transform.forward * joystick.Vertical;
         controller.Move(Move * SpeedMove*Time.deltaTime);
         anim.SetFloat("VelX", joystick.Horizontal);
@@ -55,6 +57,7 @@ public class PlayerMove : MonoBehaviour
 
     }
     
+
     private void Attack()
     {
         if (!canAttack) return;

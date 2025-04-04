@@ -39,7 +39,7 @@ public class PlayerMove : MonoBehaviour
     {
 
         Move();
-        HandleRotation();
+        //HandleRotation();
         
             
         
@@ -54,12 +54,31 @@ public class PlayerMove : MonoBehaviour
     }
     private void Move()
     {
-        Vector3 Move = transform.right * joystick.Horizontal + transform.forward * joystick.Vertical;
-        controller.Move(Move * SpeedMove * Time.deltaTime);
+        Vector3 inputDirection = new Vector3(joystick.Horizontal, 0f, joystick.Vertical);
+
+        if (inputDirection.magnitude >= 0.1f)
+        {
+            // Calcular ángulo de rotación según la dirección del joystick
+            float targetAngle = Mathf.Atan2(-inputDirection.x, -inputDirection.z) * Mathf.Rad2Deg;
+
+            // Rotar suavemente hacia esa dirección
+            Quaternion targetRotation = Quaternion.Euler(0f, targetAngle, 0f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+            // Mover en esa dirección
+            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            controller.Move(moveDir.normalized * SpeedMove * Time.deltaTime);
+        }
+
         anim.SetFloat("VelX", joystick.Horizontal);
         anim.SetFloat("VelY", joystick.Vertical);
+
+        /*Vector3 Move = transform.right * joystick.Horizontal + transform.forward * joystick.Vertical;
+        controller.Move(Move * SpeedMove * Time.deltaTime);
+        anim.SetFloat("VelX", joystick.Horizontal);
+        anim.SetFloat("VelY", joystick.Vertical);*/
     }
-    private void HandleRotation()
+    /*private void HandleRotation()
     {
         if (Input.touchCount > 0)
         {
@@ -75,7 +94,7 @@ public class PlayerMove : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
 
 
     private void Attack()

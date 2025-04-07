@@ -9,6 +9,7 @@ TagManager:
   - Hittable
   - PlayerHand
   - Draggable
+  - Enemy
   layers:
   - Default
   - TransparentFX

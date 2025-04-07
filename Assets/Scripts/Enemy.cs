@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
@@ -7,20 +8,49 @@ public class Enemy : MonoBehaviour
 
     public Animator anim;
     public float stunTime = 1f;
+    public float detectionRadius = 10f;
+    public float attackRange = 1.5f;
+
+    private Transform player;
+    private NavMeshAgent agent;
+    private bool isStunned;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
-        GameObject hand = GameObject.Find("Hand"); // Encuentra la mano del jugador
+        agent = GetComponent<NavMeshAgent>();
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        GameObject hand = GameObject.Find("Hand");
         Collider handCollider = hand.GetComponent<Collider>();
-        handCollider.isTrigger = true; // Asegura que sea un trigger
+        handCollider.isTrigger = true;
 
         Rigidbody handRb = hand.GetComponent<Rigidbody>();
-        handRb.isKinematic = true; // Evita que la física lo mueva
+        handRb.isKinematic = true;
     }
     // Update is called once per frame
     void Update()
     {
-        
+        if (isStunned || player == null) return;
+
+        float distance = Vector3.Distance(transform.position, player.position);
+
+        if (distance <= detectionRadius)
+        {
+            agent.SetDestination(player.position);
+            anim.SetBool("isMoving", true);
+            
+
+            if (distance <= attackRange)
+            {
+                anim.SetBool("isMoving", false);
+                anim.SetTrigger("Attack");
+            }
+        }
+        else
+        {
+            anim.SetBool("isMoving", false);
+            agent.ResetPath();
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -38,23 +68,15 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator Stun()
     {
-        // Desactiva el movimiento del enemigo (si tienes un AI)
-        if (TryGetComponent(out EnemyMovement movement))
-        {
-            movement.enabled = false;
-        }
+        isStunned = true;
+        agent.isStopped = true;
+        anim.SetBool("isMoving", false);
 
         yield return new WaitForSeconds(stunTime);
 
-        // Reactiva el movimiento después del stun
-        if (TryGetComponent(out EnemyMovement movement2))
-        {
-            movement2.enabled = true;
-        }
+        isStunned = false;
+        agent.isStopped = false;
     }
-    internal class EnemyMovement
-    {
-        public bool enabled { get; internal set; }
-    }
+    
 
 }

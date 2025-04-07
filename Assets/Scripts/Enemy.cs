@@ -44,6 +44,12 @@ public class Enemy : MonoBehaviour
             {
                 anim.SetBool("isMoving", false);
                 anim.SetTrigger("Attack");
+                agent.ResetPath();
+                distance = 0;
+            }
+            else
+            {
+                distance = Vector3.Distance(transform.position, player.position);
             }
         }
         else

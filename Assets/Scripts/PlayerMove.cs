@@ -11,7 +11,7 @@ public class PlayerMove : MonoBehaviour
     private int comboCount;
     public bool canAttack = true;
     private float comboTimer = 0.5f;
-    
+    public float stunTime = 1f;
     public FixedJoystick joystick;
     public float SpeedMove = 5f;
     public float rotationSpeed = 1f;
@@ -19,7 +19,9 @@ public class PlayerMove : MonoBehaviour
     public Animator anim;
     public Button button;
     public Button jumpButton;
-    
+    private bool isStunned;
+
+
 
     private Coroutine comboResetCoroutine;
 
@@ -39,7 +41,7 @@ public class PlayerMove : MonoBehaviour
     {
 
         Move();
-        //HandleRotation();
+        
         
             
         
@@ -52,11 +54,34 @@ public class PlayerMove : MonoBehaviour
         
 
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("EnemyHand")) // Asegúrate de que la mano tenga esta tag
+        {
+            TakeHit();
+        }
+    }
+
+    private void TakeHit()
+    {
+        anim.SetTrigger("Hit"); // Activa la animación de recibir golpe
+        StartCoroutine(Stun());
+    }
+
+    private IEnumerator Stun()
+    {
+        isStunned = true;
+
+        yield return new WaitForSeconds(stunTime);
+
+        isStunned = false;
+    }
     private void Move()
     {
         Vector3 inputDirection = new Vector3(joystick.Horizontal, 0f, joystick.Vertical);
 
-        if (inputDirection.magnitude >= 0.1f)
+        if (inputDirection.magnitude >= 0.1f && !isStunned)
         {
             // Calcular ángulo de rotación según la dirección del joystick
             float targetAngle = Mathf.Atan2(-inputDirection.x, -inputDirection.z) * Mathf.Rad2Deg;
@@ -73,28 +98,9 @@ public class PlayerMove : MonoBehaviour
         anim.SetFloat("VelX", joystick.Horizontal);
         anim.SetFloat("VelY", joystick.Vertical);
 
-        /*Vector3 Move = transform.right * joystick.Horizontal + transform.forward * joystick.Vertical;
-        controller.Move(Move * SpeedMove * Time.deltaTime);
-        anim.SetFloat("VelX", joystick.Horizontal);
-        anim.SetFloat("VelY", joystick.Vertical);*/
+        
     }
-    /*private void HandleRotation()
-    {
-        if (Input.touchCount > 0)
-        {
-            foreach (Touch touch in Input.touches) // Recorremos todos los toques en pantalla
-            {
-                if (touch.position.x > Screen.width * 0.4f) // Ignoramos el lado del joystick (izquierda)
-                {
-                    if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
-                    {
-                        float rotationY = touch.deltaPosition.x * rotationSpeed * Time.deltaTime;
-                        transform.Rotate(0, rotationY, 0);
-                    }
-                }
-            }
-        }
-    }*/
+    
 
 
     private void Attack()

@@ -232,6 +232,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Armature
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 97ada40f57d401540b8eafeeba1f0e9c, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 97ada40f57d401540b8eafeeba1f0e9c, type: 3}
       propertyPath: m_Controller
       value: 
@@ -2820,9 +2824,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.07268997
-  m_Height: 0.16775821
+  m_Height: 0.42321914
   m_Direction: 1
-  m_Center: {x: 0.016876481, y: -0.08684752, z: -0.0089814365}
+  m_Center: {x: 0.016876742, y: -0.21457693, z: -0.008981292}
 --- !u!4 &1946370704 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8426100268467175258, guid: dfdd82a3d47265a4fa5b24e92b602dbc, type: 3}
@@ -2878,6 +2882,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da795e1487060e246a97f32e53fd0e74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyHealth: 100
   anim: {fileID: 2113303583}
   stunTime: 1
   detectionRadius: 10

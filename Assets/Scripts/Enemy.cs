@@ -1,10 +1,11 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.AI;
+using Unity.VisualScripting;
 
 public class Enemy : MonoBehaviour
 {
-    
+    public float enemyHealth = 100;
 
     public Animator anim;
     public float stunTime = 1f;
@@ -30,6 +31,11 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        if(enemyHealth <= 0)
+        {
+            DestroyObject(gameObject);
+        }
         if (isStunned || player == null) return;
 
         float distance = Vector3.Distance(transform.position, player.position);
@@ -58,6 +64,8 @@ public class Enemy : MonoBehaviour
             agent.ResetPath();
         }
     }
+
+   
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("PlayerHand")) // Asegúrate de que la mano tenga esta tag
@@ -68,7 +76,8 @@ public class Enemy : MonoBehaviour
 
     private void TakeHit()
     {
-        anim.SetTrigger("Hit"); // Activa la animación de recibir golpe
+        anim.SetTrigger("Hit");// Activa la animación de recibir golpe
+        enemyHealth -= 50;
         StartCoroutine(Stun());
     }
 

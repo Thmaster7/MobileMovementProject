@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 public class Enemy : MonoBehaviour
 {
     public float enemyHealth = 100;
-
+    public PlayerMove playerAttack;
     public Animator anim;
     public float stunTime = 1f;
     public float detectionRadius = 10f;
@@ -77,7 +77,7 @@ public class Enemy : MonoBehaviour
     private void TakeHit()
     {
         anim.SetTrigger("Hit");// Activa la animación de recibir golpe
-        enemyHealth -= 50;
+        enemyHealth -= playerAttack.attackPower;
         StartCoroutine(Stun());
     }
 

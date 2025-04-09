@@ -21,7 +21,7 @@ public class PlayerMove : MonoBehaviour
     public Button jumpButton;
     private bool isStunned;
 
-
+    public float attackPower;
 
     private Coroutine comboResetCoroutine;
 

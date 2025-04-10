@@ -12,6 +12,8 @@ public class Enemy : MonoBehaviour
     public float detectionRadius = 10f;
     public float attackRange = 1.5f;
 
+    public float attackPower;
+
     private Transform player;
     private NavMeshAgent agent;
     private bool isStunned;

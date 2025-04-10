@@ -25,7 +25,10 @@ public class PlayerMove : MonoBehaviour
 
     private Coroutine comboResetCoroutine;
 
-    
+    public float playerHealth;
+    public float maxHealth;
+
+    public Enemy enemy;
 
     private void Start()
     {
@@ -33,8 +36,8 @@ public class PlayerMove : MonoBehaviour
         
         button.onClick.AddListener(Attack);
         jumpButton.onClick.AddListener(Dance);
-        
 
+        
 
     }
     private void Update()
@@ -60,6 +63,7 @@ public class PlayerMove : MonoBehaviour
         if (other.CompareTag("EnemyHand")) // Asegúrate de que la mano tenga esta tag
         {
             TakeHit();
+            playerHealth -= enemy.attackPower;
         }
     }
 

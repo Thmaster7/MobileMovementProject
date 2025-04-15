@@ -74,6 +74,10 @@ public class Enemy : MonoBehaviour
         {
             TakeHit();
         }
+        if (other.CompareTag("Fire"))
+        {
+            enemyHealth -= 10;
+        }
     }
 
     private void TakeHit()

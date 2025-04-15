@@ -65,6 +65,10 @@ public class PlayerMove : MonoBehaviour
             TakeHit();
             playerHealth -= enemy.attackPower;
         }
+        if (other.CompareTag("Fire"))
+        {
+            playerHealth -= 10;
+        }
     }
 
     private void TakeHit()

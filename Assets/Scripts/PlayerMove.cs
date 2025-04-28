@@ -20,7 +20,8 @@ public class PlayerMove : MonoBehaviour
     public Button button;
     public Button jumpButton;
     private bool isStunned;
-
+    private bool isOnFire;
+    private bool isInFireZone = false;
     public float attackPower;
 
     private Coroutine comboResetCoroutine;
@@ -54,9 +55,10 @@ public class PlayerMove : MonoBehaviour
             ResetToIdle();
         }
         
-        
+
 
     }
+    
 
     private void OnTriggerEnter(Collider other)
     {
@@ -67,7 +69,19 @@ public class PlayerMove : MonoBehaviour
         }
         if (other.CompareTag("Fire"))
         {
-            playerHealth -= 10;
+            isInFireZone = true;
+            if (!isOnFire)
+            {
+                StartCoroutine(OnFire());
+            }
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.CompareTag("Fire"))
+        {
+            isInFireZone = false;
+            isOnFire = false;
         }
     }
 
@@ -84,6 +98,17 @@ public class PlayerMove : MonoBehaviour
         yield return new WaitForSeconds(stunTime);
 
         isStunned = false;
+    }
+
+    private IEnumerator OnFire()
+    {
+        isOnFire = true;
+        while (isInFireZone) // Mientras esté en el fuego
+        {
+            playerHealth -= 1f; // Resta vida constantemente
+            yield return new WaitForSeconds(0.5f); // Cada 2 segundos
+        }
+        isOnFire = false;
     }
     private void Move()
     {
